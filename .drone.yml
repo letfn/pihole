@@ -1,0 +1,81 @@
+---
+kind: pipeline
+type: docker
+name: fmt
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: everything
+  image: letfn/drone
+  settings:
+    task: fmt
+
+---
+kind: pipeline
+type: docker
+name: lint
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: everything
+  image: letfn/drone
+  settings:
+    task: lint
+
+---
+kind: pipeline
+type: docker
+name: build
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: kaniko
+  image: letfn/drone-kaniko
+  settings:
+    args: --destination=letfn/container
+    cache: true
+    cache_repo: defn/cache
+    dockerfile: alt/Dockerfile
+    password:
+      from_secret: docker_password
+    repo: letfn/container
+    skip_tls_verify: true
+    tag: latest
+    username:
+      from_secret: docker_username
+
+depends_on:
+- fmt
+- lint
+
+---
+kind: pipeline
+type: docker
+name: docs
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: local
+  image: letfn/drone-hugo
+
+- name: gh-pages
+  image: letfn/drone-hugo
+  settings:
+    github_pages: true
+
+depends_on:
+- build
+
+...
