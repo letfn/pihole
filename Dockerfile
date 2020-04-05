@@ -1,5 +1,7 @@
-FROM letfn/container
+FROM pihole/pihole:v4.4
 
-COPY plugin /plugin
+COPY service /service
 
-ENTRYPOINT [ "/tini", "--", "/plugin" ]
+ENTRYPOINT [ "/service" ]
+
+CMD [ ]

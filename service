@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+function main {
+  set -x
+
+  echo "server=/local/$(grep nameserver /etc/resolv.conf | awk '{print $2}')" \
+    > /etc/dnsmasq.d/99-kind.conf
+  echo "server=/#/127.0.0.1#5353" \
+    > /etc/dnsmasq.d/98-unbound.conf
+
+  if [[ "$#" == 0 ]]; then
+    sudo pihole -a -p ""
+    set -- /s6-init
+  fi
+
+  exec "$@"
+}
+
+main "$@"
