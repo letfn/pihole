@@ -3,13 +3,12 @@ SHELL := /bin/bash
 .PHONY: docs
 
 menu:
-	@perl -ne 'printf("%10s: %s\n","$$1","$$2") if m{^([\w+-]+):[^#]+#\s(.+)$$}' Makefile | sort -b
+	@perl -ne 'printf("%10s: %s\n","$$1","$$2") if m{^([\w+-]+):[^#]+#\s(.+)$$}' Makefile
 
 all: # Run everything except build
 	$(MAKE) fmt
 	$(MAKE) lint
 	$(MAKE) docs
-	$(MAKE) test
 
 fmt: # Format drone fmt
 	@echo
@@ -19,14 +18,17 @@ lint: # Run drone lint
 	@echo
 	drone exec --pipeline $@
 
-test: # Run tests
-	@echo
-	drone exec --pipeline $@
-
 docs: # Build docs
 	@echo
 	drone exec --pipeline $@
 
 build: # Build container
 	@echo
-	drone exec --pipeline $@ --secret-file ../.drone.secret
+	drone exec --pipeline $@
+
+edit:
+	docker-compose -f docker-compose.docs.yml up --quiet-pull
+
+requirements:
+	@echo
+	drone exec --pipeline $@

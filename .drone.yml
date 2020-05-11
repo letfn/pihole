@@ -47,7 +47,6 @@ steps:
     password:
       from_secret: docker_password
     repo: letfn/pihole
-    skip_tls_verify: true
     tag: latest
     username:
       from_secret: docker_username
@@ -69,12 +68,48 @@ steps:
 - name: local
   image: letfn/drone-hugo
 
-- name: gh-pages
-  image: letfn/drone-hugo
-  settings:
-    github_pages: true
-
 depends_on:
 - build
+
+---
+kind: secret
+name: docker_username
+
+get:
+  path: kv/data/drone/common
+  name: docker_username
+
+---
+kind: secret
+name: docker_password
+
+get:
+  path: kv/data/drone/common
+  name: docker_password
+
+---
+kind: secret
+name: github_token
+
+get:
+  path: kv/data/drone/common
+  name: github_token
+
+---
+kind: pipeline
+type: docker
+name: requirements
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: everything
+  image: letfn/python
+  commands:
+  - . /app/venv/bin/activate
+  - pip-compile /drone/src/requirements.in -o /tmp/requirements.txt
+  - if test -w . ; then cp /tmp/requirements.txt requirements.txt; else diff requirements.txt /tmp/requirements.txt || true;  fi
 
 ...
