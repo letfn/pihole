@@ -3,6 +3,26 @@
 function main {
   set -x
 
+  (
+    sleep 30
+
+    local ip_unbound=
+    local ip_consul=
+
+    while true; do
+      ip_unbound="$(host unbound | awk '{print $NF}')"
+      ip_consul="$(host consul | awk '{print $NF}')"
+      if [[ -n "${ip_unbound}" -a -n "${ip_consul}" ]]; then
+        break
+      fi
+      sleep 1
+    done
+
+    perl -pe "s{^server=.*}{server=${ip_unbound}}" -i /etc/dnsmasq.d/01-pihole.conf
+    echo "server=/consul/${ip_consul}#8600" >> /etc/dnsmasq.d/01-pihole.conf
+    pihole restartdns
+  ) &
+
   if [[ "$#" == 0 ]]; then
     sudo pihole -a -p ""
     set -- /s6-init
