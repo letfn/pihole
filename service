@@ -3,9 +3,17 @@
 function main {
   set -x
 
+  if [[ -x /service.d/hook-start ]]; then
+    /service.d/hook-start
+  fi
+
   if [[ "$#" == 0 ]]; then
     sudo pihole -a -p ""
     set -- /s6-init
+  fi
+
+  if [[ -x /service.d/hook-customize ]]; then
+    /service.d/hook-customize
   fi
 
   exec "$@"
