@@ -14,6 +14,7 @@ services:
       - DNS2=1.0.0.1
     labels:
       - "SERVICE_NAME=pihole"
+      - "app=pihole"
       - "zone=kitt"
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.tls=true"
