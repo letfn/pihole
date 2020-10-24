@@ -1,34 +1,17 @@
 SHELL := /bin/bash
 
-.PHONY: docs
-
 menu:
 	@perl -ne 'printf("%10s: %s\n","$$1","$$2") if m{^([\w+-]+):[^#]+#\s(.+)$$}' Makefile
 
-all: # Run everything except build
-	$(MAKE) fmt
-	$(MAKE) lint
-	$(MAKE) docs
+clean:
+	docker-compose down --remove-orphans
 
-fmt: # Format drone fmt
-	@echo
-	drone exec --pipeline $@
+up:
+	docker-compose up -d --remove-orphans
 
-lint: # Run drone lint
-	@echo
-	drone exec --pipeline $@
+down:
+	docker-compose rm -f -s
 
-docs: # Build docs
-	@echo
-	drone exec --pipeline $@
-
-build: # Build container
-	@echo
-	drone exec --pipeline $@
-
-edit:
-	docker-compose -f docker-compose.docs.yml up --quiet-pull
-
-requirements:
-	@echo
-	drone exec --pipeline $@
+recreate:
+	$(MAKE) clean
+	$(MAKE) up
