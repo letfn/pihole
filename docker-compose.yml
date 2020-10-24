@@ -13,12 +13,18 @@ services:
       - DNS1=1.1.1.1
       - DNS2=1.0.0.1
     labels:
+      - "SERVICE_NAME=pihole"
       - "zone=kitt"
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.tls=true"
       - "traefik.http.routers.pihole.entrypoints=https"
       - "traefik.http.routers.pihole.rule=HostRegexp(`pihole.{domain:.+}`)"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
+    networks:
+      default:
+        ipv4_address: ${KITT_NETWORK_PREFIX}.53
+    ports:
+      - 80
 
 networks:
   default:
