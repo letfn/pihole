@@ -1,2 +1,2 @@
-docker-compose exec pihole sudo pihole -a -p -N ""
+docker-compose exec pihole sudo pihole -a -p admin
 docker-compose exec pihole sudo pihole restartdns
