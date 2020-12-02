@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   pihole:
-    image: letfn/pihole
+    image: defn/pihole
     dns:
       - 1.1.1.1
       - 1.0.0.1
