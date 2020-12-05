@@ -2,6 +2,7 @@ version: '3.7'
 
 services:
   pihole:
+    runtime: kata-runtime
     image: defn/pihole
     dns:
       - 1.1.1.1

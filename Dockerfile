@@ -1,4 +1,4 @@
-FROM pihole/pihole:v5.1.2
+FROM pihole/pihole:v5.2.1
 
 COPY service /service
 
