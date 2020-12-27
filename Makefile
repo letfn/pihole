@@ -17,7 +17,6 @@ clean:
 
 up:
 	docker-compose up -d --remove-orphans
-	bash -x TODO
 
 down:
 	docker-compose rm -f -s
