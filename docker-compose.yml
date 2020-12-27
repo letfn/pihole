@@ -9,7 +9,7 @@ services:
     volumes:
       - ./etc/pihole:/etc/pihole
       - ./etc/dnsmasq:/etc/dnsmasq.d
-    env_file: ./env
+    env_file: ./.env
     labels:
       - "SERVICE_NAME=pihole"
       - "app=pihole"
