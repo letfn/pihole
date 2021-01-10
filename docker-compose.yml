@@ -3,9 +3,6 @@ version: '3.7'
 services:
   pihole:
     image: defn/pihole
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
     volumes:
       - ./etc/pihole:/etc/pihole
       - ./etc/dnsmasq:/etc/dnsmasq.d

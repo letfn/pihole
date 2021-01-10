@@ -4,13 +4,13 @@ menu:
 	@perl -ne 'printf("%10s: %s\n","$$1","$$2") if m{^([\w+-]+):[^#]+#\s(.+)$$}' Makefile
 
 build: # Build defn/pihole
-	podman build -t defn/pihole .
+	docker build -t defn/pihole .
 
 push: # Push defn/pihole
-	podman push defn/pihole
+	docker push defn/pihole
 
 bash: # Run bash shell with defn/pihole
-	podman run --rm -ti --entrypoint bash defn/pihole
+	docker run --rm -ti --entrypoint bash defn/pihole
 
 clean:
 	docker-compose down --remove-orphans
