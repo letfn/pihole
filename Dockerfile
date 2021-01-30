@@ -1,4 +1,4 @@
-FROM pihole/pihole:v5.2.2
+FROM pihole/pihole:v5.2.4
 
 RUN apt-get update && apt-get upgrade -y
 
