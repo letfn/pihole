@@ -4,8 +4,11 @@ services:
   pihole:
     image: defn/pihole
     volumes:
-      - ./etc/pihole:/etc/pihole
-      - ./etc/dnsmasq:/etc/dnsmasq.d
+      - ${PIHOLE_MOUNT}/pihole:/etc/pihole
+      - ${PIHOLE_MOUNT}/dnsmasq:/etc/dnsmasq.d
+    dns:
+      - 127.0.0.1
+      - 8.8.8.8
     env_file: ./.env
     labels:
       - "SERVICE_NAME=pihole"

@@ -1,4 +1,4 @@
-FROM pihole/pihole:v5.6
+FROM pihole/pihole:v5.7
 
 RUN apt-get update && apt-get upgrade -y
 
